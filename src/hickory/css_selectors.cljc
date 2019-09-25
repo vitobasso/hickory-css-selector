@@ -1,4 +1,4 @@
-(ns hickory-css-selectors
+(ns hickory.css-selectors
   "Convert CSS selectors into Hickory selectors."
   (:require [clojure.string :as cs]
             [hickory.select :as s]
@@ -36,6 +36,10 @@
     NEXT_SIBLING = SELECTOR <SPACE?> <'+'> <SPACE?> TOKEN
     <SPACE> = #'\\s+'"))
 
+(defn str->int [s]
+  #?(:clj  (java.lang.Integer/parseInt s)
+     :cljs (js/parseInt s)))
+
 (def syntax->selector
   "Map from parser tokens to Hickory selectors."
   {:TOKEN         (fn [& ts] (apply s/and ts))
@@ -52,7 +56,7 @@
                      "$=" cs/ends-with?
                      "~=" cs/includes?)
    :NTH_CHILD     s/nth-child
-   :NTH           #(Integer/parseInt %)
+   :NTH           str->int
    :HAS_CHILD     s/has-child
    :HAS_TEXT      (comp s/find-in-text re-pattern)
    :CHILD         s/child
