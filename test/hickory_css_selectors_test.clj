@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [hickory.core :as h]
             [hickory.select :as s]
-            [hickory-css-selectors :refer :all]
+            [hickory.css-selectors :refer :all]
             [instaparse.core :as p]))
 
 (deftest css-selector-parser-test
